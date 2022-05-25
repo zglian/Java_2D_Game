@@ -1,5 +1,6 @@
 package gamestates;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -9,68 +10,65 @@ import main.Game;
 import ui.PauseOverlay;
 
 public class Playing extends State implements Statemethods{
+	
 	private Player player;
 	private PauseOverlay pauseOverlay;
-	private boolean paused = true;
-	
+	private boolean paused = false;
 	
 	public Playing(Game game) {
 		super(game);
-		// TODO Auto-generated constructor stub
 		initClasses();
 	}
 	
 	private void initClasses() {
-		// TODO Auto-generated method stub
 		player = new Player(200, 200, (int) (64 * Game.SCALE), (int) (40 * Game.SCALE));
-		pauseOverlay = new PauseOverlay();
+		pauseOverlay = new PauseOverlay(this);
 	}
 
-	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-		player.update();
-		pauseOverlay.update();
+		if(!paused) {
+			player.update();
+		}
+		else {
+			pauseOverlay.update();
+		}
 	}
 
-	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 		player.render(g);
-		pauseOverlay.draw(g);
+		if(paused) {
+			g.setColor(new Color(0, 0, 0, 150));
+			g.fillRect(0, 0, Game.GAME_WIDTH, Game.GAME_HEIGHT);
+			pauseOverlay.draw(g);
+		}
 	}
  
-	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getButton() == MouseEvent.BUTTON1)
 			player.setAttacking(true);
 	}
 
-	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(paused)
 			pauseOverlay.mousePressed(e);
 	}
 
-	@Override
 	public void mouseRealesed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(paused)
 			pauseOverlay.mouseRealesed(e);
 	}
 
-	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(paused)
 			pauseOverlay.mouseMoved(e);
 	}
 
-	@Override
+	public void mouseDragged(MouseEvent e) {
+		if(paused)
+			pauseOverlay.mouseDragged(e);
+	}
+
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_W:
 			player.setUp(true);
@@ -83,16 +81,15 @@ public class Playing extends State implements Statemethods{
 			break;
 		case KeyEvent.VK_D:
 			player.setRight(true);
-					break;
+			break;
 		case KeyEvent.VK_ESCAPE:
-			Gamestate.state = Gamestate.MENU;
+			paused = !paused;
+			break;
 		}
 		
 	}
 
-	@Override
 	public void keyRealesed(KeyEvent e) {
-		// TODO Auto-generated method stub
 		switch(e.getKeyCode()) {
 		case KeyEvent.VK_W:
 			player.setUp(false);
@@ -105,8 +102,12 @@ public class Playing extends State implements Statemethods{
 			break;
 		case KeyEvent.VK_D:
 			player.setRight(false);
-					break;
+			break;
 		}
+	}
+	
+	public void unpauseGame() {
+		paused = false;
 	}
 	
 	public void windowFocusLost() {

@@ -60,6 +60,4 @@ public class PauseButton {
 		this.bounds = bounds;
 	}
 
-	
-	
 }
