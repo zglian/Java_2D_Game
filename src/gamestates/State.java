@@ -6,7 +6,7 @@ import main.Game;
 import ui.MenuButton;
 
 public class State {
-	
+
 	protected Game game;
 
 	public State(Game game) {
@@ -17,6 +17,7 @@ public class State {
 		return mb.getBounds().contains(e.getX(), e.getY());
 	}
 	
+
 	public Game getGame() {
 		return game;
 	}
