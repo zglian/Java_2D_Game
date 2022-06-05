@@ -14,4 +14,11 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>res/small_clouds.png</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/small_clouds.png</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>
